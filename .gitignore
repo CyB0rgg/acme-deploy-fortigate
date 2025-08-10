@@ -1,0 +1,107 @@
+*.pyc
+__pycache__/
+.env
+
+# macOS Finder files
+.DS_Store
+
+# Temporary files
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# -----------------------------
+# OS / Filesystem cruft
+# -----------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# -----------------------------
+# Editors / IDEs
+# -----------------------------
+.vscode/
+.idea/
+.fleet/
+.history/
+*.sublime-project
+*.sublime-workspace
+
+# -----------------------------
+# Python (present in related repo / tooling)
+# -----------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+pip-wheel-metadata/
+*.egg-info/
+dist/
+build/
+
+# -----------------------------
+# Node / Frontend (just in case)
+# -----------------------------
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# -----------------------------
+# Shell / temp files
+# -----------------------------
+*.swp
+*.swo
+*~
+*.tmp
+*.bak
+.trash/
+
+# -----------------------------
+# Logs
+# -----------------------------
+*.log
+log/
+logs/
+
+# -----------------------------
+# Environment & secrets
+# -----------------------------
+.env
+.env.*
+*.secret
+*.key
+*.pem
+
+# -----------------------------
+# Coverage / test caches
+# -----------------------------
+.coverage*
+.cache/
+.pytest_cache/
+.mypy_cache/
+.tox/
+.nox/
+
+# -----------------------------
+# Archives / Packages
+# -----------------------------
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.gz
+*.7z
+*.rar
