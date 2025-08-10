@@ -1,3 +1,7 @@
+[1.0.1] - 2025-08-10
+### Fixed
+- Mark deploy hook executable (chmod +x fortigate.sh)
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
