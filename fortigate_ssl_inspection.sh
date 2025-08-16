@@ -1,14 +1,14 @@
 #!/bin/sh
-# FortiGate deploy hook for acme.sh
-# acme.sh deploy hook: FortiGate certificate swap/bind
-# Uses forti_cert_swap.py (v1.11.0+) and prefers a YAML config.
-# Optional persistent config: $HOME/.acme.sh/fortigate.env
+# FortiGate SSL inspection certificate deploy hook for acme.sh
+# acme.sh deploy hook: FortiGate SSL inspection certificate swap/bind
+# Uses forti_cert_swap.py (v1.11.0+) with --ssl-inspection-certificate mode and prefers a YAML config.
+# Optional persistent config: $HOME/.acme.sh/fortigate_ssl_inspection.env
 # Copyright (c) 2025 CyB0rgg <dev@bluco.re>
 # License: MIT
 
 
 # ---- Optional persistent env file (won't be touched by acme.sh) ----
-: "${FORTI_ENV:=$HOME/.acme.sh/fortigate.env}"
+: "${FORTI_ENV:=$HOME/.acme.sh/fortigate_ssl_inspection.env}"
 if [ -f "$FORTI_ENV" ]; then
   # shellcheck disable=SC1090
   . "$FORTI_ENV"
@@ -26,8 +26,8 @@ say_err() {
   if command -v _err >/dev/null 2>&1; then _err "$1"; else printf 'ERROR: %s\n' "$1" >&2; fi
 }
 
-# fortigate_deploy <domain> <keyfile> <certfile> <cafile> <fullchain> <reloadcmd>
-fortigate_deploy() {
+# fortigate_ssl_inspection_deploy <domain> <keyfile> <certfile> <cafile> <fullchain> <reloadcmd>
+fortigate_ssl_inspection_deploy() {
   _domain="$1"
   _keyfile="$2"
   _certfile="$3"
@@ -35,7 +35,7 @@ fortigate_deploy() {
   _fullchain="$5"
   _reloadcmd="$6"
 
-  say_info "FortiGate deploy for $_domain"
+  say_info "FortiGate SSL inspection certificate deploy for $_domain"
 
   # Sanity checks
   if ! command -v "$FORTI_BIN" >/dev/null 2>&1; then
@@ -50,6 +50,9 @@ fortigate_deploy() {
   else
     say_info "[warn] FORTI_CONFIG not set or file missing; proceeding with CLI args only."
   fi
+
+  # Add SSL inspection certificate mode
+  _cmd="$_cmd --ssl-inspection-certificate"
 
   # Always use the freshly-issued material from acme.sh
   # We pass fullchain (leaf+intermediates) and the private key
@@ -91,10 +94,10 @@ fortigate_deploy() {
   _rc=$?
 
   if [ $_rc -ne 0 ]; then
-    say_err "FortiGate deploy failed (rc=$_rc)."
+    say_err "FortiGate SSL inspection certificate deploy failed (rc=$_rc)."
     return $_rc
   fi
 
-  say_info "FortiGate deploy finished"
+  say_info "FortiGate SSL inspection certificate deploy finished"
   return 0
 }
