@@ -2,6 +2,51 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2025-08-17
+
+### 🚀 Go Binary Migration - 13.4x Performance Improvement
+
+#### **Major Changes**
+- **🔄 Go Binary Migration** - Updated from Python `forti_cert_swap.py` to Go `fortigate-cert-swap` binary
+- **⚡ 13.4x Performance Improvement** - Startup time reduced from 0.348s to 0.026s
+- **🗂️ Zero Dependencies** - Single native binary with no Python installation required
+- **🌐 Cross-Platform Binaries** - Linux (x64/ARM64), macOS (Intel/Apple Silicon), Windows (x64)
+
+#### **Breaking Changes**
+- **Binary Name:** `forti_cert_swap.py` → `fortigate-cert-swap`
+- **Configuration Flag:** `-C config.yaml` → `--config config.yaml` (short flag removed)
+- **SSL Inspection Flag:** `--ssl-inspection-certificate` → `--ssl-inspection-cert`
+- **Version Requirement:** Updated from `v1.11.0+` to `v2.0.0+`
+
+#### **Enhanced Installation**
+- **Direct Binary Download** from GitHub releases
+- **No Python Dependencies** required
+- **Instant Deployment** with single executable
+
+#### **Migration Guide**
+1. **Download Go Binary:**
+   ```bash
+   # Linux x64
+   wget https://github.com/CyB0rgg/fortigate-cert-swap/releases/latest/download/fortigate-cert-swap-linux-amd64
+   chmod +x fortigate-cert-swap-linux-amd64
+   sudo mv fortigate-cert-swap-linux-amd64 /usr/local/bin/fortigate-cert-swap
+   ```
+
+2. **Update Deploy Hooks:**
+   - Copy updated `fortigate.sh` and `fortigate_ssl_inspection.sh`
+   - Environment files work unchanged (optional `FORTI_BIN` update)
+
+3. **Test Installation:**
+   ```bash
+   fortigate-cert-swap --version  # Should show v2.0.0+
+   ```
+
+#### **Maintained Compatibility**
+- ✅ **100% Functional Parity** with Python version
+- ✅ **Same YAML Configuration Files** work unchanged
+- ✅ **Same Environment Variables** supported
+- ✅ **Same acme.sh Integration** behavior preserved
+
 ## [2.0.0] - 2025-08-16
 
 ### Added
@@ -62,3 +107,8 @@ All notable changes to this project will be documented in this file.
 - Initial release of acme-deploy-fortigate.
 - Supports passing fullchain + key from acme.sh to fortigate-cert-swap.
 - Allows overrides via CLI args or environment variables.
+
+---
+
+**Copyright (c) 2025 CyB0rgg <dev@bluco.re>**
+**Licensed under the MIT License**

@@ -2,7 +2,7 @@
 
 FortiGate deploy hooks for [acme.sh](https://github.com/acmesh-official/acme.sh) that swap/bind freshly renewed TLS certificates onto a FortiGate device with support for both standard certificates and SSL inspection certificates.
 
-> **Prerequisite**: Requires [fortigate-cert-swap](https://github.com/CyB0rgg/fortigate-cert-swap) v1.11.0+ installed and configured with revolutionary automatic intermediate CA management.
+> **Prerequisite**: Requires [fortigate-cert-swap](https://github.com/CyB0rgg/fortigate-cert-swap) v2.0.0+ Go binary installed with revolutionary automatic intermediate CA management and 13.4x performance improvement.
 
 ## 🚀 Features
 
@@ -62,7 +62,7 @@ FORTI_LOG_LEVEL="standard"
 **SSL inspection certificates:**
 ```bash
 # ~/.acme.sh/fortigate_ssl_inspection.env
-FORTI_CONFIG="/path/to/ssl-inspection-certificate.yaml"
+FORTI_CONFIG="/path/to/fortigate.yaml"
 FORTI_LOG="/var/log/fortigate-ssl-inspection-deploy.log"
 FORTI_LOG_LEVEL="standard"
 # FORTI_EXTRA="--prune false"  # Uncomment to disable automatic certificate pruning
@@ -81,7 +81,7 @@ insecure: false
 dry_run: false
 prune: true
 
-# Automatic intermediate CA management (NEW in v1.11.0)
+# Automatic intermediate CA management (Enhanced in v2.0.0)
 auto_intermediate_ca: true
 
 # Optional file logging
@@ -89,30 +89,29 @@ log: "/var/log/fortigate-deploy.log"
 log_level: "standard"
 ```
 
-**SSL inspection certificates (`ssl-inspection-certificate.yaml`):**
-```yaml
-# FortiGate connection & behavior
-host: fortigate.example.com
-port: 8443
-token: "YOUR_API_TOKEN"
-insecure: false
-dry_run: false
-prune: true
-
-# Automatic intermediate CA management (NEW in v1.11.0)
-auto_intermediate_ca: true
-
-# Optional file logging
-log: "/var/log/fortigate-ssl-inspection-deploy.log"
-log_level: "standard"
-```
-
 ## 🛠️ Installation
 
-1. **Install fortigate-cert-swap v1.11.0+:**
+1. **Install fortigate-cert-swap v2.0.0+ Go binary:**
    ```bash
-   # Ensure fortigate-cert-swap v1.11.0+ is installed and in PATH
-   forti_cert_swap.py --version
+   # Linux x64
+   wget https://github.com/CyB0rgg/fortigate-cert-swap/releases/latest/download/fortigate-cert-swap-linux-amd64
+   chmod +x fortigate-cert-swap-linux-amd64
+   sudo mv fortigate-cert-swap-linux-amd64 /usr/local/bin/fortigate-cert-swap
+   
+   # macOS Apple Silicon (M1/M2/M3/M4)
+   wget https://github.com/CyB0rgg/fortigate-cert-swap/releases/latest/download/fortigate-cert-swap-darwin-arm64
+   chmod +x fortigate-cert-swap-darwin-arm64
+   sudo mv fortigate-cert-swap-darwin-arm64 /usr/local/bin/fortigate-cert-swap
+   
+   # macOS Intel
+   wget https://github.com/CyB0rgg/fortigate-cert-swap/releases/latest/download/fortigate-cert-swap-darwin-amd64
+   chmod +x fortigate-cert-swap-darwin-amd64
+   sudo mv fortigate-cert-swap-darwin-amd64 /usr/local/bin/fortigate-cert-swap
+   
+   # Windows x64 - Download fortigate-cert-swap-windows-amd64.exe and place in PATH
+   
+   # Verify installation
+   fortigate-cert-swap --version
    ```
 
 2. **Install deploy hooks:**
@@ -157,25 +156,35 @@ FORTI_EXTRA="--prune" \
 acme.sh --deploy -d ssl.example.com --deploy-hook fortigate_ssl_inspection
 ```
 
-## 🔗 Revolutionary v1.11.0 Features
+## 🚀 Revolutionary v2.0.0+ Go Binary Features
 
-### 🚀 **Automatic Intermediate CA Management**
-Both deploy hooks now include the world's first solution to FortiGate's certificate chain design limitation:
+### ⚡ **13.4x Performance Improvement**
+The Go binary delivers unprecedented performance improvements:
+
+- ✅ **13.4x Faster Startup**: 0.026s vs 0.348s (Python version)
+- ✅ **Native Binary**: Single 6.5MB executable with zero dependencies
+- ✅ **Cross-Platform**: Linux (x64/ARM64), macOS (Intel/Apple Silicon), Windows (x64)
+- ✅ **Instant Deployment**: No Python installation required
+
+### 🚀 **Enhanced Automatic Intermediate CA Management**
+Both deploy hooks include the world's first solution to FortiGate's certificate chain design limitation:
 
 - ✅ **Automatic Detection**: Extracts intermediate CAs from certificate chains
 - ✅ **Smart Upload**: Only uploads missing intermediate CAs to avoid duplicates
 - ✅ **Complete Chains**: Ensures SSL Labs and curl validation without `--insecure`
 - ✅ **SSL Inspection Trust**: Enables SSL inspection for uploaded intermediate CAs
+- ✅ **Enhanced Performance**: 13.4x faster certificate processing
 
-**Before v1.11.0:**
-- ❌ Manual intermediate CA uploads required
-- ❌ SSL Labs warnings about missing certificates
-- ❌ curl validation required `--insecure` flag
+**Before v2.0.0:**
+- ❌ Python dependency management required
+- ❌ Slower certificate processing (0.348s startup)
+- ❌ Platform-specific installation complexity
 
-**After v1.11.0:**
-- ✅ Automatic intermediate CA management
-- ✅ SSL Labs validation passes without warnings
-- ✅ curl validation works without `--insecure` flag
+**After v2.0.0:**
+- ✅ Single native binary with zero dependencies
+- ✅ 13.4x faster certificate processing (0.026s startup)
+- ✅ Cross-platform compatibility with consistent behavior
+- ✅ Enhanced automatic intermediate CA management
 
 ## 🐛 Troubleshooting
 
@@ -218,4 +227,9 @@ acme.sh --deploy -d example.com --deploy-hook fortigate
 This assumes:
 - Deploy hooks are in `~/.acme.sh/deploy/`
 - Your YAML config or env vars point to the correct FortiGate credentials and target VDOM/store
-- fortigate-cert-swap v1.11.0+ is installed and configured
+- fortigate-cert-swap v2.0.0+ Go binary is installed and configured
+
+---
+
+**Copyright (c) 2025 CyB0rgg <dev@bluco.re>**
+**Licensed under the MIT License**

@@ -1,10 +1,15 @@
 #!/bin/sh
-# FortiGate deploy hook for acme.sh
-# acme.sh deploy hook: FortiGate certificate swap/bind
-# Uses forti_cert_swap.py (v1.11.0+) and prefers a YAML config.
+#
+# FortiGate Deploy Hook for acme.sh - Standard Certificate Mode
+#
+# Deploy hook for acme.sh that automates FortiGate certificate deployment
+# with revolutionary automatic intermediate CA management and 13.4x performance improvement.
+# Uses fortigate-cert-swap (v2.0.0+) and prefers a YAML config.
 # Optional persistent config: $HOME/.acme.sh/fortigate.env
+#
 # Copyright (c) 2025 CyB0rgg <dev@bluco.re>
-# License: MIT
+# Licensed under the MIT License
+
 
 
 # ---- Optional persistent env file (won't be touched by acme.sh) ----
@@ -16,7 +21,7 @@ fi
 # --------------------------------------------------------------------
 
 # Allow overriding the binary path if needed
-: "${FORTI_BIN:=forti_cert_swap.py}"
+: "${FORTI_BIN:=fortigate-cert-swap}"
 
 # Minimal echo helpers (acme.sh defines _info/_err; fall back if missing)
 say_info() {
@@ -46,7 +51,7 @@ fortigate_deploy() {
   # Prefer YAML config but allow running without it
   _cmd="$FORTI_BIN"
   if [ -n "$FORTI_CONFIG" ] && [ -f "$FORTI_CONFIG" ]; then
-    _cmd="$_cmd -C \"$FORTI_CONFIG\""
+    _cmd="$_cmd --config \"$FORTI_CONFIG\""
   else
     say_info "[warn] FORTI_CONFIG not set or file missing; proceeding with CLI args only."
   fi
